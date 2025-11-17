@@ -1,0 +1,170 @@
+body {
+    font-family: 'Inria Sans', sans-serif;
+    background-color: #f9f8f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Botões --- */
+.botoes {
+    background-color: #E0BFB8;
+    border-color: #E0BFB8;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.botoes:hover {
+    background-color: #d4afa8;
+    border-color: #d4afa8;
+    color: #fff;
+}
+
+/* --- Navbar --- */
+.navegacao {
+    font-weight: 300;
+    background-color: #403633;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.navegacao .nav-link {
+    color: #fff !important;
+    transition: 0.3s;
+}
+
+.navegacao .nav-link:hover {
+    color: #E0BFB8 !important;
+}
+
+/* --- Hero section (imagem grande com texto central) --- */
+.position-relative img {
+    width: 100%;
+    height: 90vh;
+    object-fit: cover;
+    filter: brightness(90%);
+}
+
+.position-absolute h2, 
+.position-absolute h4 {
+    color: #2e2e2e;
+}
+
+.position-absolute button {
+    background-color: #E0BFB8;
+    border: none;
+    color: #000;
+}
+
+/* --- Seção SOBRE --- */
+section {
+    background-color: #fff;
+    padding: 60px 0;
+}
+
+#sobre {
+    background-color: #fff;
+}
+
+#sobre h3 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #403633;
+}
+
+#sobre h5 {
+    font-weight: 300;
+    line-height: 1.6;
+    color: #403633;
+}
+
+#sobre img {
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    object-fit: cover;
+}
+
+#sobre img:hover {
+    transform: scale(1.05);
+}
+
+/* --- Ajuste das imagens em grade --- */
+#sobre .col-md-6.d-flex img {
+    width: 45%;
+    margin: 5px;
+    height: auto;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .position-absolute h2 {
+        font-size: 1.3rem;
+    }
+
+    #sobre .col-md-6:first-child {
+        margin-bottom: 30px;
+    }
+
+    #sobre h5 {
+        font-size: 0.95rem;
+    }
+}
+
+.preco-destaque{
+    background-color: #000;
+    border-style: solid;
+    border-color: #000;
+    border-radius: 10rem;
+    color: white
+}
+
+#contatos {
+  background-color: #F3E8E2;
+}
+
+.contato-card {
+  background-color: transparent;
+  border: none;
+  text-align: center;
+}
+
+.contato-img {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.contato-img:hover {
+  transform: scale(1.05);
+  filter: brightness(0.9);
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a {
+  color: #000;
+  font-size: 1.8rem;
+  margin: 0 8px;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #E0BFB8;
+}
+
+.btn-horario {
+  border-radius: 30px;
+  margin: 5px;
+  background-color: #E0BFB8;
+  color: #000;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-horario:hover,
+.btn-horario.active {
+  background-color: #d2a9a1;
+  color: #fff;
+}
