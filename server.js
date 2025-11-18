@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const Database = require('better-sqlite3');
+const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,9 +11,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const db = new Database('./database.db');
+// Conectar ao banco
+const db = new sqlite3.Database('./database.db', (err) => {
+  if (err) console.error('Erro ao conectar ao banco:', err);
+  else console.log('Banco conectado com sucesso.');
+});
 
-db.prepare(`
+// Criar tabela se não existir
+db.run(`
   CREATE TABLE IF NOT EXISTS agendamentos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT,
@@ -21,18 +26,20 @@ db.prepare(`
     data TEXT,
     horario TEXT
   )
-`).run();
+`);
 
+// Buscar agendamentos
 app.get('/agendamentos', (req, res) => {
-  try {
-    const rows = db.prepare('SELECT * FROM agendamentos ORDER BY data, horario').all();
+  db.all('SELECT * FROM agendamentos ORDER BY data, horario', [], (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ erro: 'Erro ao buscar agendamentos' });
+    }
     res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ erro: 'Erro ao buscar agendamentos' });
-  }
+  });
 });
 
+// Inserir agendamento
 app.post('/agendar', (req, res) => {
   const { nome, cpf, data, horario } = req.body;
 
@@ -40,18 +47,15 @@ app.post('/agendar', (req, res) => {
     return res.status(400).json({ erro: 'Preencha todos os campos.' });
   }
 
-  try {
-    const stmt = db.prepare(
-      'INSERT INTO agendamentos (nome, cpf, data, horario) VALUES (?, ?, ?, ?)'
-    );
+  const sql = `INSERT INTO agendamentos (nome, cpf, data, horario) VALUES (?, ?, ?, ?)`;
 
-    const result = stmt.run(nome, cpf, data, horario);
-
-    res.json({ sucesso: true, id: result.lastInsertRowid });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ erro: 'Erro ao salvar no banco.' });
-  }
+  db.run(sql, [nome, cpf, data, horario], function (err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ erro: 'Erro ao salvar no banco.' });
+    }
+    res.json({ sucesso: true, id: this.lastID });
+  });
 });
 
 app.listen(port, () => console.log(`Rodando na porta ${port}`));
