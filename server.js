@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,15 +9,11 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.static('public'));
 
-const db = new sqlite3.Database('./database.db', (err) => {
-  if (err) console.error('Erro ao conectar ao banco:', err);
-  else console.log('Banco conectado com sucesso.');
-});
+const db = new Database('./database.db');
 
-db.run(`
+db.prepare(`
   CREATE TABLE IF NOT EXISTS agendamentos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT,
@@ -25,7 +21,17 @@ db.run(`
     data TEXT,
     horario TEXT
   )
-`);
+`).run();
+
+app.get('/agendamentos', (req, res) => {
+  try {
+    const rows = db.prepare('SELECT * FROM agendamentos ORDER BY data, horario').all();
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao buscar agendamentos' });
+  }
+});
 
 app.post('/agendar', (req, res) => {
   const { nome, cpf, data, horario } = req.body;
@@ -34,32 +40,18 @@ app.post('/agendar', (req, res) => {
     return res.status(400).json({ erro: 'Preencha todos os campos.' });
   }
 
-  // Rota para listar os agendamentos
-app.get('/agendamentos', (req, res) => {
-    const sql = 'SELECT * FROM agendamentos ORDER BY data, horario';
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            console.error(err.message);
-            res.status(500).json({ erro: 'Erro ao buscar agendamentos' });
-        } else {
-            res.json(rows);
-        }
-    });
-});
+  try {
+    const stmt = db.prepare(
+      'INSERT INTO agendamentos (nome, cpf, data, horario) VALUES (?, ?, ?, ?)'
+    );
 
+    const result = stmt.run(nome, cpf, data, horario);
 
-  db.run(
-    `INSERT INTO agendamentos (nome, cpf, data, horario) VALUES (?, ?, ?, ?)`,
-    [nome, cpf, data, horario],
-    function (err) {
-      if (err) {
-        console.error(err);
-        res.status(500).json({ erro: 'Erro ao salvar no banco.' });
-      } else {
-        res.json({ sucesso: true, id: this.lastID });
-      }
-    }
-  );
+    res.json({ sucesso: true, id: result.lastInsertRowid });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao salvar no banco.' });
+  }
 });
 
 app.listen(port, () => console.log(`Rodando na porta ${port}`));
