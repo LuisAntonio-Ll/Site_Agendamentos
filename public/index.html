@@ -31,6 +31,10 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li class="nav-item te">
+                            <a class="nav-link active" style="color: white;" aria-current="page" href="#"><img class="logo_nav" src="/Assets/logo2.png"></a>
+                        </li>
+                        
+                        <li class="nav-item te">
                             <a class="nav-link active" style="color: white;" aria-current="page" href="#">Sobre nós</a>
                         </li>
 
@@ -99,7 +103,7 @@
     <div class="modal fade" id="sucessoModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center p-4" style="background-color:#f5f2ef; border-radius:20px;">
-                <h1 style="font-size:3rem;">Ψ</h1>
+                <img class="img_concluido" src="/Assets/logo_completa.png">
                 <h5 class="mb-4">Agendamento realizado com sucesso!</h5>
                 <button type="button" class="btn botoes px-4" data-bs-dismiss="modal">Voltar</button>
             </div>
@@ -118,9 +122,8 @@
                 style="height: 350px; background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);"></div>
 
             <div class="position-absolute top-50 start-50 translate-middle p-4 ">
-                <h2 style="font-weight: 400; color: #000;">Cuidar da mente é cuidar da vida, Estamos aqui para ajudar
-                    você a
-                    encontrar o equilíbrio.</h2>
+                <h2 style="font-weight: 400; color: #000;">Venha agendar um horario conosco, Entre inumeros serivos
+                    disponiveis para você!</h2>
                 <h4 class="mt-2 mb-0" style="font-weight: 400; color: #000;">Horário de funcionamento: 08h às 18h</h4>
                 <button class="botoes btn btn-secondary mt-3" style="font-weight: 300; color: #000;"
                     data-bs-toggle="modal" data-bs-target="#agendarModal">Agendar
@@ -145,29 +148,20 @@
                     <div class="col-md-6">
                         <h3 class="mb-3" style="font-weight: 700; color: #000;">Sobre</h3>
                         <h5 style="text-align: left; color: #000;">
-                            Bem-vindo à nossa clínica de psicologia, um espaço dedicado ao cuidado e ao bem-estar
-                            mental.
-                            Nossa missão é oferecer um atendimento humanizado e personalizado, proporcionando um
-                            ambiente
-                            seguro e acolhedor onde cada pessoa se sinta valorizada e ouvida. Contamos com uma equipe de
-                            profissionais qualificados, especializados em diversas áreas da psicologia, prontos para
-                            ajudar
-                            você a enfrentar os desafios da vida e promover o autoconhecimento.
+                            Bem-vindo ao nosso escritório de contabilidade — aqui a gente resolve sua vida financeira
+                            sem drama. Se você precisa organizar a empresa, tirar dúvidas fiscais ou só parar de sofrer
+                            com papelada, é só marcar uma consulta com a nossa equipe.
                         </h5>
                         <h5 style="text-align: left; color: #000;">
-                            Acreditamos que a saúde mental é fundamental para uma vida equilibrada e feliz. Oferecemos
-                            uma
-                            ampla gama de serviços, incluindo terapia individual, de casal, familiar e em grupo, bem
-                            como
-                            avaliações psicológicas e orientação profissional.
+                            Temos profissionais que realmente entendem do assunto e falam sua língua, prontos pra te
+                            ajudar a colocar tudo nos trilhos, seja no planejamento tributário, abertura de empresa,
+                            regularização, ou qualquer pepino contábil que esteja tirando seu sono.
                         </h5>
                         <h5 style="text-align: left; color: #000;">
-                            Nosso objetivo é apoiar nossos pacientes na construção de uma vida mais plena e
-                            satisfatória,
-                            ajudando-os a desenvolver habilidades para lidar com o estresse, a ansiedade e outras
-                            questões
-                            emocionais. Venha nos conhecer e descubra como podemos ajudar você a alcançar um estado de
-                            bem-estar emocional duradouro.
+                            A ideia é simples: você agenda, chega, conversa com alguém que sabe o que está fazendo e sai
+                            com um plano claro. Nada de burocracia infinita ou explicação enrolada.
+                            Quer deixar suas finanças em ordem sem surtar? Cola com a gente e agenda sua consulta. Vamos
+                            facilitar sua vida.
                         </h5>
                     </div>
                 </div>
@@ -215,7 +209,6 @@
                 <h2 class="mb-4">Contatos</h2>
                 <div class="row justify-content-center">
 
-                    <!-- Contato 1 -->
                     <div class="col-md-4 mb-4">
                         <div class="contato-card">
                             <img src="/Assets/Paula.jpg" alt="Paula" class="img-fluid contato-img">
@@ -228,7 +221,6 @@
                         </div>
                     </div>
 
-                    <!-- Contato 2 -->
                     <div class="col-md-4 mb-4">
                         <div class="contato-card">
                             <img src="/Assets/Fernanda.jpg" alt="Fernanda" class="img-fluid contato-img">
@@ -241,7 +233,6 @@
                         </div>
                     </div>
 
-                    <!-- Contato 3 -->
                     <div class="col-md-4 mb-4">
                         <div class="contato-card">
                             <img src="/Assets/Bruno.jpg" alt="Bruno" class="img-fluid contato-img">
@@ -327,14 +318,14 @@
     </script>
 
     <script>
-        // Função para carregar os agendamentos
+
         async function carregarAgendamentos() {
             try {
                 const resposta = await fetch('/agendamentos');
                 const agendamentos = await resposta.json();
 
                 const tabela = document.getElementById('tabelaAgendamentos');
-                tabela.innerHTML = ''; // limpa antes de preencher
+                tabela.innerHTML = '';
 
                 agendamentos.forEach(a => {
                     const tr = document.createElement('tr');
@@ -351,7 +342,6 @@
             }
         }
 
-        // Carregar ao abrir a página
         window.addEventListener('DOMContentLoaded', carregarAgendamentos);
     </script>
 
